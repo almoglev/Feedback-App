@@ -1,8 +1,6 @@
 import React from 'react';
 import Card from '../components/shared/Card';
-import AboutIconLink from '../components/AboutIconLink';
 import {Link} from 'react-router-dom';
-
 
 function About() {
     return (
