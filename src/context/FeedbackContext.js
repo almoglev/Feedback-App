@@ -8,20 +8,26 @@ export const FeedbackProvider = ({children}) => {
         {
             id: 1,
             rating: 10,
-            text: 'This is feedback item 1.',
+            text: 'This is feedback item 1',
           },
           {
             id: 2,
             rating: 9,
-            text: 'This is feedback item 2.',
+            text: 'This is feedback item 2',
           },
           {
             id: 3,
             rating: 7,
-            text: 'This is feedback item 3.',
+            text: 'This is feedback item 3',
           },
     ]);
 
+    const [feedbackToEdit, setFeedbackToEdit] = useState({
+        item: {},
+        isEditMode: false,
+    })
+
+    // delete a feedback
     const deleteFeedback = (id) => {
         if(window.confirm('Are you sure you want to delete this feeback?')){
             setAllFeedbacks(
@@ -31,10 +37,19 @@ export const FeedbackProvider = ({children}) => {
         }
     }
 
+    // add a new feedback
     const addFeedback = (newFeedback) => {
         newFeedback.id = uuidv4();
         // adding newFeedback to the existing list
         setAllFeedbacks([newFeedback, ...allFeedbacks])
+    }
+
+    // set item to be updated
+    const editFeedback = (feedbackToEdit) => {
+        setFeedbackToEdit({
+            item: feedbackToEdit,
+            isEditMode: true,
+        })
     }
 
     return (
@@ -43,6 +58,8 @@ export const FeedbackProvider = ({children}) => {
             allFeedbacks,
             deleteFeedback,
             addFeedback,
+            editFeedback, // the function
+            feedbackToEdit, // the feedback we edit (the item and the boolean)
         }}>
             {children}
         </FeedbackContext.Provider>
