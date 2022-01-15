@@ -4,8 +4,21 @@ import Button from './shared/Button';
 
 function FeedbackForm() {
     const [feedbackText, setFeedbackText] = useState('');
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [message, setMessage] = useState('');
 
     const handleTextChange = (e) => {
+        if (feedbackText === ''){
+            setButtonDisabled(true)
+            setMessage(null)
+        } else if (feedbackText.trim().length < 10) {
+            setMessage('Text must be at least 10 characters')
+            setButtonDisabled(true)
+        } else {
+            setMessage(null)
+            setButtonDisabled(false)
+        }
+
         setFeedbackText(e.target.value);
     }
 
@@ -21,8 +34,11 @@ function FeedbackForm() {
                         onChange={handleTextChange}
                         value={feedbackText}
                     />
-                    <Button type='submit'>Send</Button>
+                    <Button type='submit' isDisabled={buttonDisabled}>Send</Button>
                 </div>
+
+                { message && <div className='message'>{message}</div>}
+
             </form>
         </Card>
     )
