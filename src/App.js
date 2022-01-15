@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import FeedbackData from './data/FeedbackData';
 import Header from './components/Header';
 import FeedbackList from "./components/FeedbackList";
-import FeedbackData from './data/FeedbackData';
 import FeedbackStats from './components/FeedbackStats';
+import FeedbackForm from './components/FeedbackForm';
 
 function App(){
     const [allFeedbacks, setAllFeedbacks] = useState(FeedbackData);
@@ -15,13 +16,13 @@ function App(){
             )
         }
     }
-    
+
     return(
         <>
             <Header />
             <div className="container">
+                <FeedbackForm />
                 <FeedbackStats allFeedbacks={allFeedbacks}/>
-
                 <FeedbackList
                  allFeedbacks={allFeedbacks}
                  handleDelete = {deleteFeedback}/>
