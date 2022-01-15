@@ -2,23 +2,28 @@ import { useState } from 'react';
 import Header from './components/Header';
 import FeedbackList from "./components/FeedbackList";
 import FeedbackData from './data/FeedbackData';
+import FeedbackStats from './components/FeedbackStats';
 
 function App(){
-    const [feedback, setFeedback] = useState(FeedbackData);
+    const [allFeedbacks, setAllFeedbacks] = useState(FeedbackData);
+
     const deleteFeedback = (id) => {
         if(window.confirm('Are you sure you want to delete this feeback?')){
-            setFeedback(
+            setAllFeedbacks(
                 // filter out the feedback we wish to delete by returning a list of all feedbacks without it
-                feedback.filter((itemToKeep)=> itemToKeep.id !== id)
+                allFeedbacks.filter((itemToKeep)=> itemToKeep.id !== id)
             )
         }
     }
+    
     return(
         <>
             <Header />
             <div className="container">
+                <FeedbackStats allFeedbacks={allFeedbacks}/>
+
                 <FeedbackList
-                 feedback={feedback}
+                 allFeedbacks={allFeedbacks}
                  handleDelete = {deleteFeedback}/>
             </div>
         </>

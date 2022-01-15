@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 
 
 function FeedbackList(props) {
-    if(!props.feedback || props.feedback.length == 0) {
+    if(!props.allFeedbacks || props.allFeedbacks.length == 0) {
         return <p>No feedback yet</p>
     }
 
     return (
         <div className='feedback-list'>
-            {props.feedback.map((item)=>(
+            {props.allFeedbacks.map((item)=>(
                 <FeedbackItem
                  key={item.id}
                  item={item} 
@@ -22,7 +22,7 @@ function FeedbackList(props) {
 }
 
 FeedbackList.propTypes = {
-    feedback:  PropTypes.arrayOf(
+    allFeedbacks:  PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             text: PropTypes.string.isRequired,
