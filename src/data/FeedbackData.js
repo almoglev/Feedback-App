@@ -1,5 +1,3 @@
-import FeedbackItem from "../components/FeedbackItem"
-
 const FeedbackData = [
     {
       id: 1,

@@ -13,7 +13,7 @@ function FeedbackStats(props) {
         <div className='feedback-stats'>
             {/* <h4>{ props.allFeedbacks.length} Reviews</h4> */}
             {
-                props.allFeedbacks.length == 1 ?             
+                props.allFeedbacks.length === 1 ?             
                 <h4>{ props.allFeedbacks.length } Review</h4>
                 :
                 <h4>{ props.allFeedbacks.length } Reviews</h4>

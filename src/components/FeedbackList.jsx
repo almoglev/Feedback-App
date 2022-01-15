@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 
 function FeedbackList(props) {
-    if(!props.allFeedbacks || props.allFeedbacks.length == 0) {
+    if(!props.allFeedbacks || props.allFeedbacks.length === 0) {
         return <p>No feedback yet</p>
     }
 
