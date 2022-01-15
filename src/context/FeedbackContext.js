@@ -8,17 +8,47 @@ export const FeedbackProvider = ({children}) => {
         {
             id: 1,
             rating: 10,
-            text: 'This is feedback item 1',
+            text: 'The service was super professional, thanks!',
           },
           {
             id: 2,
             rating: 9,
-            text: 'This is feedback item 2',
+            text: 'Such a great company. I\'d give it a 10, but nothing is perfect, hehe',
           },
           {
             id: 3,
             rating: 7,
-            text: 'This is feedback item 3',
+            text: 'I have to say it was a very good experience, but I was not fully impressed. I would offer to improve the support availability on your website',
+          },
+          {
+            id: 4,
+            rating: 10,
+            text: 'Superb.',
+          },
+          {
+            id: 5,
+            rating: 4,
+            text: 'You were very late and I had to miss a day at work, that is a shame',
+          },
+          {
+            id: 6,
+            rating: 8,
+            text: 'Good service, nice and professional people, cheers!',
+          },
+          {
+            id: 7,
+            rating: 9,
+            text: 'Super quick and generous, will recommend my friends for sure',
+          },
+          {
+            id: 8,
+            rating: 10,
+            text: 'Amazing service! Wow!',
+          },
+          {
+            id: 9,
+            rating: 9,
+            text: 'Will absolutely use your company again',
           },
     ]);
 
@@ -52,14 +82,25 @@ export const FeedbackProvider = ({children}) => {
         })
     }
 
+    // update a feedback
+    const updateFeedback = (id, updatedItem) => {
+        setAllFeedbacks(allFeedbacks.map((item)=> item.id === id ? {...item, ...updatedItem} : item))
+        
+        setFeedbackToEdit({   // turn the isEditMode flag off
+            item:{},
+            isEditMode: false
+        })
+    }
+
     return (
         <FeedbackContext.Provider
          value={{
             allFeedbacks,
+            feedbackToEdit, // the feedback we edit (the item and the boolean)
             deleteFeedback,
             addFeedback,
             editFeedback, // the function
-            feedbackToEdit, // the feedback we edit (the item and the boolean)
+            updateFeedback
         }}>
             {children}
         </FeedbackContext.Provider>
