@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaSketch,FaGem,FaTrophy } from 'react-icons/fa';
+import { FaTrophy } from 'react-icons/fa';
 
 function Header(props) {
 
