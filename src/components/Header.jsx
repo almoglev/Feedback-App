@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaSketch,FaGem,FaTrophy } from 'react-icons/fa';
 
 function Header(props) {
 
@@ -10,7 +11,7 @@ function Header(props) {
     return (
         <header style={headerStyle}>
             <div className='container'>
-                <h2 align="center">{props.text}</h2>
+                <h2 align="center"><FaTrophy className='fa-xs' />&nbsp;&nbsp;&nbsp;{props.text}</h2>
                 <p>{props.description}</p>
             </div>
         </header>
@@ -21,7 +22,7 @@ Header.defaultProps = {
     text: "Rank-It",
     bgColor: 'rgba(0,0,0,0.4)',
     textColor: '#ff6a95',
-    description: "Increase your company loyalty with our review platform",
+    description: "Increase your company loyalty with our feedback platform",
 }
 
 export default Header
