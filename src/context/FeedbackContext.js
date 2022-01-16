@@ -1,77 +1,48 @@
-import {createContext, useState} from 'react';
+import {createContext, useState, useEffect} from 'react';
 import { v4 as uuidv4} from 'uuid';
 
 const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({children}) => {
-    const [allFeedbacks, setAllFeedbacks] = useState([
-        {
-            id: 1,
-            rating: 10,
-            text: 'The service was super professional, thanks!',
-          },
-          {
-            id: 2,
-            rating: 9,
-            text: 'Such a great company. I\'d give it a 10, but nothing is perfect, hehe',
-          },
-          {
-            id: 3,
-            rating: 7,
-            text: 'I have to say it was a very good experience, but I was not fully impressed. I would offer to improve the support availability on your website',
-          },
-          {
-            id: 4,
-            rating: 10,
-            text: 'Superb.',
-          },
-          {
-            id: 5,
-            rating: 4,
-            text: 'You were very late and I had to miss a day at work, that is a shame',
-          },
-          {
-            id: 6,
-            rating: 8,
-            text: 'Good service, nice and professional people, cheers!',
-          },
-          {
-            id: 7,
-            rating: 9,
-            text: 'Super quick and generous, will recommend my friends for sure',
-          },
-          {
-            id: 8,
-            rating: 10,
-            text: 'Amazing service! Wow!',
-          },
-          {
-            id: 9,
-            rating: 9,
-            text: 'Will absolutely use your company again',
-          },
-    ]);
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [allFeedbacks, setAllFeedbacks] = useState([]);
     const [feedbackToEdit, setFeedbackToEdit] = useState({
         item: {},
         isEditMode: false,
     })
 
+    useEffect(()=>{
+        fetchFeedbacks();
+    }, [])
+
+    // fetch all feedbacks from db.json
+    const fetchFeedbacks = async () => {
+        const response = await fetch("/feedback?_sort=id&_order=desc");
+        const data = await response.json();
+        setAllFeedbacks(data);
+        setIsLoading(false);
+    }
+
     // delete a feedback
-    const deleteFeedback = (id) => {
+    const deleteFeedback = async (id) => {
         if(window.confirm('Are you sure you want to delete this feeback?')){
-            setAllFeedbacks(
-                // filter out the feedback we wish to delete by returning a list of all feedbacks without it
-                allFeedbacks.filter((itemToKeep)=> itemToKeep.id !== id)
-            )
+            await fetch(`/feedback/${id}`, {method: 'DELETE'});
+            fetchFeedbacks();
         }
     }
 
     // add a new feedback
-    const addFeedback = (newFeedback) => {
-        newFeedback.id = uuidv4();
-        // adding newFeedback to the existing list
-        setAllFeedbacks([newFeedback, ...allFeedbacks])
+    const addFeedback = async (newFeedback) => {
+        const response = await fetch('/feedback', {
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newFeedback)
+        });
+
+        const data = await response.json();
+        setAllFeedbacks([data, ...allFeedbacks])
     }
 
     // set item to be updated
@@ -83,8 +54,17 @@ export const FeedbackProvider = ({children}) => {
     }
 
     // update a feedback
-    const updateFeedback = (id, updatedItem) => {
-        setAllFeedbacks(allFeedbacks.map((item)=> item.id === id ? {...item, ...updatedItem} : item))
+    const updateFeedback = async (id, updatedItem) => {
+        const response = await fetch(`/feedback/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedItem)
+        })
+
+        const data = await response.json();
+        setAllFeedbacks(allFeedbacks.map((item)=> item.id === id ? {...item, ...data} : item))
         
         setFeedbackToEdit({   // turn the isEditMode flag off
             item:{},
@@ -97,6 +77,7 @@ export const FeedbackProvider = ({children}) => {
          value={{
             allFeedbacks,
             feedbackToEdit, // the feedback we edit (the item and the boolean)
+            isLoading,
             deleteFeedback,
             addFeedback,
             editFeedback, // the function
